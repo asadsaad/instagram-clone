@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="account-setting-form">
+			<h3 class="formheading">Change Account Settings.</h1>
+  	<form method="post" class='ac_form'>
+  		{% csrf_token %}
+  		{{form.as_p}}
+  		<button type="submit">Save</button>
+  	</form>
+  	<strong>Change Password Here </strong><a href="{% url 'accounts:passchange' %}">Change Password</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="m-grid">
+  <div class="profile">
+      <!-- <div class="inner-profile">
+         {% if request.user.profile.cover_img %} <img src="{{request.user.profile.cover_img.url}}" id='cover-img'>
+         
+         {% endif %} 
+
+        <img src="{{request.user.profile.profile_img.url}}" id="profile-img">
+      </div> -->
+      <div class="inner-profile-manu">
+          <h3>{{request.user.username|capfirst}}</h3>
+         <div class="spans"><span><strong>Posts</strong><small>({{post_u}})</small></span> <span><strong>Followers</strong><small>({{request.user.followed_by.count}})</small></span></div> 
+          <a href="{% url 'profilies:followers' %}">My Followers/Following</a>
+      </div>
+    </div>
+    <div class="c_form">
+        <form class="create-form" method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+      
+            <button type="submit">Post</button>
+      
+          </form>
+      </div>
+</div> 
+  <section class="front">
+    <div class="inner-front">
+      
+      <div class="post">
+        {% for post in post%}
+        <div class="inner-post">
+          <div class="profile-img"><img src="{{post.author.profile.profile_img.url}}">
+            <a href="{% url 'profilies:profile' post.author.username %}">{{post.author.username}} </a> <span> |   {{post.creat_at|timesince}} ago</span>
+            
+          </div>
+          {% if post.author == request.user %}
+          <div class="icone_post"><i class="fas fa-ellipsis-v"></i> 
+          </div>
+          
+          <div class="post_menu">
+            <ul>
+              <li  id="border"><a href="{% url 'post_app:update' post.pk %}">Edit Post</a></li>
+              <li><a href="{% url 'post_app:delete' post.pk %}">Delete Post</a></li>
+
+            </ul>
+          </div>
+          {% endif %}
+          <p>{{post.content}}</p>
+          {% if post.img %}<div class="post-img"><img src="{{post.img.url}}"></div>{% endif %}
+          
+          <a href="{% url 'post_app:details' post.pk %}" id="link2">View Post</a>
+        </div>
+        {% endfor %}
+      </div>
+      <!-- <div class="latest_post"></div> -->
+    </div>
+  
+
+
+
+
+  </section>
+{% endblock %}

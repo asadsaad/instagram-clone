@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="login-form">
+        <h3 class="formheading">Login Here.</h1>
+<form action="" method="POST" class="l-form">
+
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">login</button>
+</form>
+<p class="right">Already have an account <a href="{% url 'accounts:signup' %}">Create Account Here</a></p>
+<p class="right"><a href="{% url "social:begin" 'google-oauth2' %}" class="social-google">Login With Google</a></p>
+
+
+
+</div>
+<!-- <a href="{% url "social:begin" 'instagram' %}">instagram</a> -->
+
+{% endblock %}

@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+	<link href="https://fonts.googleapis.com/css?family=Dancing+Script:700" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+
+
+	<title></title>
+	
+</head>
+<body>
+	{% if user.is_authenticated %}
+	<header class="m-header">
+        <nav>
+            <div class="logo"><h3>Insta Pic</h3></div>
+            <div class="search-bar">
+                <form action="{% url 'profilies:search' %}" method="get">
+                    <input type="search" name="q"><button type="submit"><i class="fas fa-search"></i></button> 
+                </form>
+            </div>
+            <div class="list">
+                <ul>
+                    <li><a href="{% url 'post_app:index' %}">News Feed</a></li>
+                    <li><a href="{% url 'post_app:allposts' %}">All Posts</a></li>
+                </ul>
+            </div>
+            <div class="name"><p>Hi <a href="{% url 'profilies:profile' request.user.username %}">{{request.user.username|capfirst}}</a> <span><i class="fas fa-user-alt"></i></span>
+                <ul>
+                    <li><a href="{% url 'accounts:account-setting' %}">Accounts Settings</a></li>
+                    <li><a href="{% url 'profiles:profile-update' %}">Profile Settings</a></li>
+                    <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+
+                </ul>
+            
+            </p></div>
+        </nav>
+    </header>
+	<header class="r-header">
+			<nav>
+				<div class="r-logo"><p>Insta pic</p></div>
+				<div class="r-bar">
+					<form action="" method="get">
+						<input type="search" value=""><button type="submit"><i class="fas fa-search"></i></button>
+					</form>
+				</div>
+				<div class="r-menue">
+					<i class="fas fa-bars"></i>
+				</div>
+			</nav>
+		</header>
+		<div class="r-nbar">
+			<ul>
+				<li><a href="{% url 'profilies:profile' request.user.username %}"><h3>Hi Asad</h3></a></li>
+				<li><a href="{% url 'post_app:index' %}"><h3>News Feed</h3></a></li>
+                <li><a href="{% url 'post_app:allposts' %}"><h3>All Posts</h3></a></li>
+				<li><a href="{% url 'accounts:account-setting' %}"><h3>Account Settings</h3></a></li>
+				<li><a href="{% url 'profiles:profile-update' %}"><h3>Profile Settings</h3></a></li>
+				<li><a href="{% url 'accounts:logout' %}"><h3>Log Out</h3></a></li>
+			</ul>
+		</div>
+	{% else %}
+	<header class="nah">
+		
+		<nav>
+			
+			<div class="logo"><p>Insta Pic</p></div>
+			
+			<div class="ls-btn">
+				<button id="btn5"><a href="{% url 'accounts:login' %}" >Login</a></button>
+				<button id="btn6"><a href="{% url 'accounts:signup' %}">SignUp</a></button>
+
+			</div>
+		</nav>
+
+	</header>
+	{% endif %}
+
+	<div class="notification">
+		{% if messages %}
+			{% for message in messages %}
+			  <div class="inner-notification">
+				{{ message }}
+			  </div>
+			{% endfor %}
+		{% endif %}
+	</div>
+{% block content %}
+{% endblock %}
+
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".icone_post").click(function(){
+				$(this).next().toggleClass('active')
+			})
+		})
+		$(".reply-s form").addClass('replyyyy');
+
+		$(document).ready(function(){
+			$(".name i").click(function(){
+				$('.name ul').toggle()
+			})
+		})
+		$(document).ready(function(){
+			$(".r-menue i").click(function(){
+				$('.r-nbar').slideToggle(200)
+			})
+		})
+		$(document).ready(function(){
+			$("#style2").click(function(){
+			$('.reply-s').toggle()
+				})
+		})
+		$(document).ready(function(e){
+			$(document).on('click','#btn1',function(e){
+				e.preventDefault()
+				var pk=$(this).attr('value');
+				$.ajax({
+					type:"POST",
+					url:'{% url "post_app:post-like" %}',
+					data:{'id': pk, 'csrfmiddlewaretoken': '{{csrf_token}}'},
+					dataType:'json',
+					success:function(response){
+						$('#like').html(response['form'])
+					},
+					error:function(rs,e){
+						console.log(rs.responseText);
+					},
+				})
+			})
+		})
+
+
+
+		$(document).on('submit','.comment-formm',function(e){
+			e.preventDefault()
+			$.ajax({
+				type:"POST",
+				url:$(this).attr('action'),
+				data:$(this).serialize(),
+				dataType:'json',
+				success:function(response){
+					$('#main-comment-section').html(response['form']);
+					$('.comment-form').val('');
+
+				},
+				error:function(rs,e){
+					console.log(rs.responseText)
+				}
+			})
+		})
+
+		$(document).on('submit','.reply-formm',function(e){
+			e.preventDefault()
+			$.ajax({
+				type:"POST",
+				url:$(this).attr('action'),
+				data:$(this).serialize(),
+				dataType:'json',
+				success:function(response){
+					$('#main-comment-section').html(response['form']);
+					$('.comment-form').val('')
+				},
+				error:function(rs,e){
+					console.log(rs.responseText)
+				}
+			})
+		})
+	</script>
+</body>
+</html>

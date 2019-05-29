@@ -1,0 +1,42 @@
+<div class="d-comment">
+    <h3>Add Comment Here......</h3>
+     <form method="post" class="comment-formm" action=".">
+
+          {% csrf_token %}
+          {{comment_form}}
+          <!-- <input type="hidden" name="comment_id" value="{{ comment.id }}"> -->
+
+          <button type="submit">comment</button>
+        </form>
+        <h5>{{ comments.count }} Comment{{ comments|pluralize}}</h5>
+  
+
+  <div class='comment-r'>
+
+     {% for comment in comments %}
+     <div class="inner-c">
+      <div class="profile-img"><img src="{{comment.c_by.profile.profile_img.url}}"><a href="{% url 'profilies:profile' comment.c_by.username %}">{{comment.c_by.username}} </a> <span> |   {{comment.created_on|timesince}} ago</span>
+        </div>
+        <p style="margin: 10px 0 10px 0px"><strong>{{comment.comment_content}}</strong><button id="style2">Reply</button></p>
+
+
+     <!-- <div class="reply-s"> 
+      <form method="post" class="reply-formm" action=".">
+          <input type="hidden" name="comment_id" value="{{ comment.id }}">
+           {% csrf_token%}
+          {{ comment_form.as_p }}
+         <button type="submit" id="style3">Submit</button>
+      </form>
+      {% for reply in comment.replies.all %}
+           <div class="profile-img"><img src="{{reply.c_by.profile.profile_img.url}}"><a href="{% url 'profilies:profile' reply.c_by.username %}">{{reply.c_by.username}} </a> <span> |   {{reply.created_on|timesince}} ago</span>
+          </div>
+            <p style="margin: 10px 0 10px 0px"><strong>{{reply.comment_content}}</strong></p>
+
+        {% endfor %}
+     </div>    -->
+    {% endfor %}
+
+    </div>
+    
+  </div>
+</div>

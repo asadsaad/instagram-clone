@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="search">
+    <div class="follow-info">
+        <div class="following">
+            <h1>Following</h1>
+            {% for user in user.profile.following.all %}
+                     <img src="{{user.profile.profile_img.url}}">
+                
+                <a href="{% url 'profilies:profile' user.username %}">{{user.username}}</a>
+                <strong>Folowers <small>({{user.followed_by.count}})</small></strong>
+
+            {% empty %}
+                <h1 style="text-align: center">You are Not Following anyone.</h1>
+            {% endfor %}
+        </div>
+
+
+        <div class="followed-by">
+                <h1>Followers</h1>
+            {% for profile in user.followed_by.all %}
+                
+                <img src="{{profile.user.profile.profile_img.url}}">
+                <span><b>{{profile.user.username}}</b></span><br>
+                <strong>Folowers <small>({{profile.user.followed_by.count}})</small></strong>
+                <a href="{% url 'profilies:profile' profile.user.username %}">View</a>
+            
+            {% empty %}
+                <h1 style="text-align: center">You are Not Followed By anyone.</h1>
+            {% endfor %}
+        </div>
+        </div>
+    </section>        
+{% endblock %}

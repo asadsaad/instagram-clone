@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="detail">
+         <!--  {% for comment in comments %}
+        <p>{{comment.comment_content}} | {{comment.c_by}}</p>
+        
+        <form method="post" style="width: 40%">
+            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+             {% csrf_token%}
+            {{ comment_form.as_p }}
+           <button type="submit" class="btn btn-primary btn-sm">Reply</button><br><br>
+        </form>
+        {% for reply in comment.replies.all %}
+            <p>{{ reply.comment_content }} | by{{ reply.c_by }}</p>
+          {% endfor %}   
+      {% endfor %} -->
+
+
+
+
+<div class="post">
+   
+        <div class="inner-post">
+          <div class="profile-img"><img src="{{post.author.profile.profile_img.url}}"><a href="{% url 'profilies:profile' post.author.username %}">{{post.author.username}} </a> <span> |   {{post.creat_at|timesince}} ago</span>
+            
+          </div>
+         
+          <p>{{post.content}}</p>
+          {% if post.img %}<div class="post-img"><img src="{{post.img.url}}"></div>{% endif %}
+          <div id="like">
+           {% include 'post_app/like_section.html' %}
+          </div>  
+        </div>
+        
+      <!-- <div class="latest_post"></div> -->
+      <div id="main-comment-section">
+        {% include 'post_app/comment_section.html' %}
+       </div>  
+</div> 
+</section>
+
+{% endblock %}      

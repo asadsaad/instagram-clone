@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+<section id='profile'>
+    
+{% if user_p.profile.cover_img %}
+        <div class="cover">
+            <img src="{{user_p.profile.cover_img.url}}">
+        </div>
+        {% else %}
+        <div class="cover">
+               <h1>No Cover Photo Avalable.</h1>
+        </div>
+{% endif %}
+<div class="profile-pic">
+    <img src="{{user_p.profile.profile_img.url}}">
+    <h3 style="text-align:center"><strong style="text-align:center">{{user_p.username|capfirst}}</strong></h3>
+</div>
+<div class="follow">
+    {% if is_follow == True %}<a href="{% url 'profilies:follow' user_p.username %}" id="follow-btn">unfollow</a>{% endif %}
+    {% if is_follow == False %} <a href="{% url 'profilies:follow' user_p.username %}" id="follow-btn">follow</a>{% endif %}
+    
+      
+    <strong>followers <small>({{user_p.followed_by.count}})</small></strong>
+    
+    </div>
+<div class="nav">
+  <ul>    
+  <li><a href="{% url 'profilies:profile' user_p.profile.user.username %}">Timeline</a></li>
+     
+      <li><a href="{% url 'profilies:photos' user_p.profile.user.username %}">Photos</a></li>
+  
+  <li><a href="{% url 'profilies:about' user_p.profile.user.username %}" {% if active_a %} class="blue" {% endif %}>about</a></li>
+  </ul>    
+  
+  </div>
+
+
+<div class="about">
+    <ul>
+        <li>
+            <h3><strong>Name : </strong> <small>{{ user_p.profile.user.username }}</small></h3>
+        </li>
+        <li>
+                <h3><strong>First Name : </strong> <small>{{ user_p.profile.user.first_name }}</small></h3>
+        </li>
+        <li>
+                <h3><strong>Last Name : </strong> <small>{{ user_p.profile.user.last_name }}</small></h3>
+        </li>
+        <li>
+            <h3><strong>Email : </strong> <small>{{ user_p.profile.user.email }}</small></h3>
+        </li>
+        <li>
+                <h3><strong>Bio : </strong> <small>{{ user_p.profile.bio }}</small></h3>
+        </li>
+        <li>
+                <h3><strong>Study : </strong> <small>{{ user_p.profile.education }}</small></h3>
+        </li>
+        <li>
+                <h3><strong>Working At : </strong> <small>{{ user_p.profile.work_at }}</small></h3>
+        </li>
+        <li>
+                <h3><strong>Live In : </strong> <small>{{ user_p.profile.location }}</small></h3>
+        </li>
+       
+
+    </ul>
+
+</div>
+
+
+
+
+</section>
+
+
+
+
+
+
+    
+{% endblock %}

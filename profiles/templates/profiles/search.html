@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<section class="search">
+<h1 style='text-align:center'>Users</h1>
+<div class="user-card">
+        
+        {% for user in qs_u %}
+          <div class="inner-u-card">
+              <img src="{{user.profile.profile_img.url}}">
+              <span><b>{{user.username}}</b></span>
+              <strong>Folowers <small>({{user.followed_by.count}})</small></strong><br><br>
+              <a href="{% url 'profilies:profile' user.username %}">View</a>
+          </div>
+        {% endfor %}
+</div>
+
+<h1 style='text-align:center'>Posts</h1>
+{% for post in posts %}
+  
+ 
+<div class="inner-post">
+        <div class="profile-img"><img src="{{post.author.profile.profile_img.url}}">
+          <a href="{% url 'profilies:profile' post.author.username %}">{{post.author.username}} </a> <span> |   {{post.creat_at|timesince}} ago</span>
+          
+        </div>
+        {% if post.author == request.user %}
+        <div class="icone_post"><i class="fas fa-ellipsis-v"></i> 
+        </div>
+        
+        <div class="post_menu">
+          <ul>
+            <li  id="border"><a href="{% url 'post_app:update' post.pk %}">Edit Post</a></li>
+            <li><a href="{% url 'post_app:delete' post.pk %}">Delete Post</a></li>
+
+          </ul>
+        </div>
+        {% endif %}
+        <p>{{post.content}}</p>
+        {% if post.img %}<div class="post-img"><img src="{{post.img.url}}"></div>{% endif %}
+        
+        <a href="{% url 'post_app:details' post.pk %}" id="link2">View Post</a>
+      </div>
+    
+
+
+
+
+{% endfor %} 
+</section>
+{% endblock %}
