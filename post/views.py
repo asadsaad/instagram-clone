@@ -122,3 +122,8 @@ def all_post(request):
     else:
         form=PostForm()
     return render(request,'post_app/all.html',{'post':post,'form':form})
+
+
+def main(request):
+    main=True
+    return render(request,'post_app/main.html',{'main':main})    

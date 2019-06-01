@@ -8,6 +8,9 @@ app_name="post_app"
 
 urlpatterns = [
     path('newsfeed/',views.index,name="index"),
+    path('',views.main,name="main"),
+
+
     # path('post/<int:pk>',views.index,name="index"),
 
 

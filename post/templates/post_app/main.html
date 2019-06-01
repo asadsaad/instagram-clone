@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="front-page">
+        <div class="col1">
+            <div class="inner-1">
+            <span><i class="fas fa-search"></i></span><span class="text">Follow your interests.</span><br><br><br>
+            <span><i class="fas fa-user-friends"></i></span><span class="text">Hear what people are talking about.</span><br><br><br>
+            <span><i class="fas fa-smile-wink"></i></span><span class="text">Have An Awasome Day.</span><br>
+  
+  
+            </div>
+  
+  
+        </div>
+        <div class="col2">
+            <div class="inner-2">
+            <h2>See What Happining In The World Right Now!</h2><br>
+            {% if user.is_authenticated %}
+            <button style="background: #1d44f2"><a href="{% url 'post_app:index' %}">News Feed</a></button><br>
+            <button style="background: none;border: 2px solid #1d44f2"><a href="{% url 'post_app:allposts' %}" style="color: #1d44f2">All Post</a></button>
+            {% else %}
+            <button style="background: #1d44f2"><a href="{% url 'accounts:signup' %}">Sign Up</a></button><br>
+            <button style="background: none;border: 2px solid #1d44f2"><a href="{% url 'accounts:login' %}" style="color: #1d44f2">Log In</a></button>
+            {% endif %}
+            </div>
+        </div>
+        
+    </section>
+{% endblock %}
